@@ -88,5 +88,6 @@
   # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "17.09"; # Did you read the comment?
-
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.channel = https://nixos.org/channels/nixos-18.03;
 }

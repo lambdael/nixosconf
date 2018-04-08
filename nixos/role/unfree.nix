@@ -14,5 +14,5 @@
     xserver = {
       videoDrivers = [ "nvidia" ];
     };
-  }
+  };
 }
