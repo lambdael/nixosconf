@@ -8,13 +8,18 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./role/audio.nix
+      ./role/gui.nix
+      ./role/unfree.nix
+
     ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+
+  networking.hostName = "nyx"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Select internationalisation properties.
@@ -23,7 +28,6 @@
     consoleKeyMap = "jp106";
     defaultLocale = "en_US.UTF-8";
   };
-
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
 
@@ -36,39 +40,20 @@
     sudo
     gitAndTools.gitFull
     zlib
+    gnumake
+    gcc
     stack
+    haskellPackages.hoogle
+    nix-prefetch-git
 
-    rxvt_unicode
-    #alsamixer
+
     htop
-
-    atom
-    firefox
-    haskellPackages.xmobar #for xmonad
-    scrot #screen shot?
-    vscode
+    ruby
     #xorg.xrdb
-    lxqt.pcmanfm-qt
     ((pkgs.callPackage ./packages/nix-home/package.nix) { })
   ];
-  nixpkgs.config = {
-      allowUnfree = true;
-      # more stuff
-    };
 
-  fonts.fonts = with pkgs; [
-    ipafont
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts
-    dina-font
-    proggyfonts
-    anonymousPro
-  ];
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.bash.enableCompletion = true;
@@ -89,34 +74,9 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable the X11 windowing system.
-  services = {
-    xserver = {
-      enable = true;
-      layout = "jp";
-      windowManager = {
-        xmonad.enable = true;
-        xmonad.enableContribAndExtras = true;
-        default = "xmonad";
-      };
-      desktopManager.default = "none";
-      desktopManager.xterm.enable = false;
-      displayManager.sddm.enable = true;
-    };
-  };
-  # services.xserver.xkbOptions = "eurosign:e";
-
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  services.xserver.desktopManager.plasma5.enable = true;
-
-
-
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.lambdael = { 
+  users.extraUsers.lambdael = {
     isNormalUser = true;
     home = "/home/lambdael";
     description = "lambdael";
