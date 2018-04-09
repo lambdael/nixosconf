@@ -44,6 +44,7 @@
     gcc
     nix-prefetch-git
 
+    fontconfig-ultimate
 
     htop
     ruby

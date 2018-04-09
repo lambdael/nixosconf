@@ -23,20 +23,26 @@
       export GTK_PATH=$GTK_PATH:${pkgs.adapta-gtk-theme}/lib/gtk-2.0
       export GTK2_RC_FILES=$GTK2_RC_FILES:${pkgs.adapta-gtk-theme}/share/themes/oxygen-gtk/gtk-2.0/gtkrc
     '';
-  fonts.fonts = with pkgs; [
-    ipafont
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts
-    dina-font
-    proggyfonts
-    anonymousPro
-  ];
-
+  
+  fonts = {
+    fonts = with pkgs; [
+      ipafont
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      liberation_ttf
+      fira-code
+      fira-code-symbols
+      mplus-outline-fonts
+      dina-font
+      proggyfonts
+      anonymousPro
+    ];
+    fontconfig = {
+      enable = true;
+      dpi = 155;
+    };
+  };
   # Enable the X11 windowing system.
   services = {
     xserver = {
@@ -52,6 +58,8 @@
 
       desktopManager.default = "none";
       desktopManager.xterm.enable = false;
+      desktopManager.plasma5.enable = true;
+      desktopManager.gnome3.enable = true;
       displayManager.lightdm.enable = true;
 
         #theme = ./slim-theme;
@@ -64,9 +72,6 @@
   # Enable touchpad support.
   # services.xserver.libinput.enable = true;
 
-  # Enable the KDE Desktop Environment.
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.desktopManager.gnome3.enable = true;
 
 
 }
