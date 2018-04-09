@@ -3,8 +3,6 @@
 {
   environment.systemPackages = with pkgs; [
     lxappearance
-
-
     adapta-gtk-theme
     lxqt.lxqt-config
     kde-gtk-config
@@ -16,7 +14,9 @@
     scrot #screen shot?
     lxqt.pcmanfm-qt #file manager
     supercollider_scel
-
+    chromium
+  	nodejs-9_x
+    electron
   ];
 
   environment.shellInit = ''

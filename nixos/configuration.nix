@@ -42,8 +42,6 @@
     zlib
     gnumake
     gcc
-    stack
-    haskellPackages.hoogle
     nix-prefetch-git
 
 
