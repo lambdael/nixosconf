@@ -15,7 +15,7 @@ https://wiki.archlinux.org/index.php/EFI_System_Partition
     # mount /dev/sdc1 /mnt/boot
     # mkdir /mnt/home
     # mount /dev/sdc4 /mnt/home
-    # swapon /dev/sda2
+    # swapon /dev/sdc2
     # nixos-generate-config --root /mnt
     # nano /mnt/etc/nixos/configuration.nix
     # nixos-install
