@@ -7,6 +7,7 @@
     lxqt.lxqt-config
     kde-gtk-config
 
+    feh # image viewer
     rxvt_unicode # terminal
     atom #editor
     firefox #browser
