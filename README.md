@@ -18,3 +18,6 @@ https://wiki.archlinux.jp/index.php/EFI_%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%
     # passwd user
     # reboot
 
+nix-env -iA nixos.git
+git clone https://github.com/lambdael/nixosconf.git
+cp -r ./nixos/ /mnt/etc/
