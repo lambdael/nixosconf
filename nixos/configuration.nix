@@ -3,55 +3,37 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
-{
+with pkgs;
+let
+  my-python-packages = python-packages: with python-packages; [
+    pylint
+    autopep8
+    beautifulsoup4
+    google-api-python-client
+    # other python packages you want
+  ]; 
+  python-with-my-packages = python3.withPackages my-python-packages;
+  vscodeOverlay = self: super: {
+    vscode-with-extensions = super.vscode-with-extensions.override {
+      vscodeExtensions =
+        super.vscode-utils.extensionsFromVscodeMarketplace [
+          {
+            name = "vscode-hie-server";
+            publisher = "alanz";
+            version = "0.0.19";
+            sha256 = "0x0cs7c5q90p1ffig2wb5v21z3yj3p2chgpvbnlm4gfsnw7qpfzr";
+          }
+        ] ++ [
+          super.vscode-extensions.bbenoist.Nix
+        ];
+    };
+  };
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./role/audio.nix
-      ./role/gui.nix
-      ./role/unfree.nix
-
+      ./machines/gtyun.nix
     ];
-
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-
-  networking.hostName = "nyx"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Select internationalisation properties.
-  i18n = {
-    consoleFont = "Lat2-Terminus32";
-    consoleKeyMap = "jp106";
-    defaultLocale = "en_US.UTF-8";
-  };
-  # Set your time zone.
-  time.timeZone = "Asia/Tokyo";
-
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    wget
-    vim
-    nano
-    sudo
-    gitAndTools.gitFull
-    zlib
-    gnumake
-    gcc
-    nix-prefetch-git
-
-    fontconfig-ultimate
-
-    htop
-    ruby
-    #xorg.xrdb
-    ((pkgs.callPackage ./packages/nix-home/package.nix) { })
-  ];
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -62,7 +44,10 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "xmonad";
+  networking.firewall.allowedTCPPorts = [ 3389 ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -74,12 +59,13 @@
   # services.printing.enable = true;
 
 
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.lambdael = {
     isNormalUser = true;
     home = "/home/lambdael";
     description = "lambdael";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "audio" ];
   };
 
   # This value determines the NixOS release with which your system is to be
@@ -87,6 +73,5 @@
   # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "18.03"; # Did you read the comment?
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.channel = https://nixos.org/channels/nixos-18.03;
+
 }

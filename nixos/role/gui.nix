@@ -6,18 +6,19 @@
     adapta-gtk-theme
     lxqt.lxqt-config
     kde-gtk-config
+    fontconfig-ultimate
 
     feh # image viewer
     rxvt_unicode # terminal
     atom #editor
-    firefox #browser
+    # firefox #browser
     haskellPackages.xmobar #for xmonad
     scrot #screen shot?
     lxqt.pcmanfm-qt #file manager
-    supercollider_scel
+    # supercollider_scel
     chromium
-  	nodejs-9_x
-    electron
+  	# nodejs-9_x
+    # electron
   ];
 
   environment.shellInit = ''
@@ -54,14 +55,13 @@
         xmonad.enableContribAndExtras = true;
         default = "xmonad";
       };
-      videoDrivers = [ "mesa" ];
 
 
       desktopManager.default = "none";
       desktopManager.xterm.enable = false;
-      desktopManager.plasma5.enable = true;
-      desktopManager.gnome3.enable = true;
-      displayManager.lightdm.enable = true;
+      desktopManager.plasma5.enable = false;
+      desktopManager.gnome3.enable = false;
+      displayManager.lightdm.enable = false;
 
         #theme = ./slim-theme;
 
