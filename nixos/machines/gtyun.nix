@@ -55,7 +55,8 @@ in {
     gitAndTools.gitFull
     nix-prefetch-git
 
-
+    gnupg
+    pass
     htop
     #ruby
     #xorg.xrdb

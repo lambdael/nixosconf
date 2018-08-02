@@ -4,31 +4,7 @@
 
 { config, pkgs, ... }:
 with pkgs;
-let
-  my-python-packages = python-packages: with python-packages; [
-    pylint
-    autopep8
-    beautifulsoup4
-    google-api-python-client
-    # other python packages you want
-  ]; 
-  python-with-my-packages = python3.withPackages my-python-packages;
-  vscodeOverlay = self: super: {
-    vscode-with-extensions = super.vscode-with-extensions.override {
-      vscodeExtensions =
-        super.vscode-utils.extensionsFromVscodeMarketplace [
-          {
-            name = "vscode-hie-server";
-            publisher = "alanz";
-            version = "0.0.19";
-            sha256 = "0x0cs7c5q90p1ffig2wb5v21z3yj3p2chgpvbnlm4gfsnw7qpfzr";
-          }
-        ] ++ [
-          super.vscode-extensions.bbenoist.Nix
-        ];
-    };
-  };
-in {
+ {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
