@@ -12,9 +12,11 @@ in {
       #./hardware-configuration.nix
       # ../lib/pci-passthrough.nix
       ../role/gui.nix
-      ../role/python.nix
+      ../role/pythondev.nix
+      ../role/nodejsdev.nix
      # ../role/audio.nix
      # ../role/unfree.nix
+      ../role/graphic.nix
       ../role/vscode.nix
 
     ];
@@ -34,17 +36,47 @@ in {
     consoleFont = "Lat2-Terminus32";
     consoleKeyMap = "jp106";
     defaultLocale = "en_US.UTF-8";
-  };
-
-  # Set your time zone.
-  time.timeZone = "Asia/Tokyo";
-
-  services = {
-    xserver = {
-      videoDrivers = [ "mesa" ];
-     # videoDrivers = [ "nvidia" ];
+    inputMethod = {
+      enabled = "ibus";
+      fcitx.engines = with pkgs.fcitx-engines; [
+        anthy
+      ];
+      ibus.engines = with pkgs.ibus-engines; [ 
+        anthy
+      ];
     };
   };
+  # programs = {
+  #   ibus.enable = true;
+  #   ibus.plugins 
+  # };
+  # Set your time zone.
+  #   services.postgresql = {
+  #   enable = true;
+  #   package = pkgs.postgresql100;
+  #   enableTCPIP = true;
+  #   # authentication = pkgs.lib.mkOverride 10 ''
+  #   #   local all all trust
+  #   #   host all all ::1/128 trust
+  #   # '';ss
+  #   initialScript = pkgs.writeText "backend-initScript" ''
+  #     CREATE ROLE lambdael WITH LOGIN PASSWORD 'lambdael' CREATEDB;
+  #     CREATE DATABASE testdb;
+  #     GRANT ALL PRIVILEGES ON DATABASE testdb TO lambdael;
+  #   '';
+  # };
+  # services.postgresql.enable = true;
+  # services.pgmanage.enable = true;
+  # services.pgmanage.connections ={
+  #    gtyun = "hostaddr=127.0.0.1 port=5432 dbname=postgres ";  
+  # };
+  time.timeZone = "Asia/Tokyo";
+
+  services.xserver = {
+    videoDrivers = [ "mesa" ];
+    # videoDrivers = [ "nvidia" ];
+  };
+  
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
@@ -54,9 +86,10 @@ in {
     sudo
     gitAndTools.gitFull
     nix-prefetch-git
-
-    gnupg
-    pass
+    bash-completion
+    tmux
+    # gnupg
+    # pass
     htop
     #ruby
     #xorg.xrdb

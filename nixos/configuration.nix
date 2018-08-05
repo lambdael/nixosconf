@@ -21,6 +21,7 @@ with pkgs;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  # Enable the xrdp daemon.
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "xmonad";
   networking.firewall.allowedTCPPorts = [ 3389 ];

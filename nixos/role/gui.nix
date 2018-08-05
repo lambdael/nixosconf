@@ -10,7 +10,7 @@
 
     feh # image viewer
     rxvt_unicode # terminal
-    atom #editor
+    # atom #editor
     # firefox #browser
     haskellPackages.xmobar #for xmonad
     scrot #screen shot?
@@ -24,8 +24,11 @@
   environment.shellInit = ''
       export GTK_PATH=$GTK_PATH:${pkgs.adapta-gtk-theme}/lib/gtk-2.0
       export GTK2_RC_FILES=$GTK2_RC_FILES:${pkgs.adapta-gtk-theme}/share/themes/oxygen-gtk/gtk-2.0/gtkrc
+      # export GTK_IM_MODULE=fcitx
+      # export QT_IM_MODULE=fcitx
+      # export XMODIFIERS=@im=fcitx
     '';
-  
+
   fonts = {
     fonts = with pkgs; [
       ipafont
