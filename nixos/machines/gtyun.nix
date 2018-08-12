@@ -4,12 +4,11 @@
 
 { config, pkgs, ... }:
 with pkgs;
-let
+ {
 
-in {
-  imports =
+     imports =
     [ # Include the results of the hardware scan.
-      #./hardware-configuration.nix
+      ./hardware-configuration.nix
       # ../lib/pci-passthrough.nix
       ../role/gui.nix
       ../role/pythondev.nix
@@ -37,7 +36,7 @@ in {
     consoleKeyMap = "jp106";
     defaultLocale = "en_US.UTF-8";
     inputMethod = {
-      enabled = "ibus";
+      enabled = "fcitx";
       fcitx.engines = with pkgs.fcitx-engines; [
         anthy
       ];
@@ -46,30 +45,32 @@ in {
       ];
     };
   };
-  # programs = {
-  #   ibus.enable = true;
-  #   ibus.plugins 
-  # };
-  # Set your time zone.
-  #   services.postgresql = {
-  #   enable = true;
-  #   package = pkgs.postgresql100;
-  #   enableTCPIP = true;
-  #   # authentication = pkgs.lib.mkOverride 10 ''
-  #   #   local all all trust
-  #   #   host all all ::1/128 trust
-  #   # '';ss
-  #   initialScript = pkgs.writeText "backend-initScript" ''
-  #     CREATE ROLE lambdael WITH LOGIN PASSWORD 'lambdael' CREATEDB;
-  #     CREATE DATABASE testdb;
-  #     GRANT ALL PRIVILEGES ON DATABASE testdb TO lambdael;
-  #   '';
-  # };
-  # services.postgresql.enable = true;
-  # services.pgmanage.enable = true;
-  # services.pgmanage.connections ={
-  #    gtyun = "hostaddr=127.0.0.1 port=5432 dbname=postgres ";  
-  # };
+    # Enable the xrdp daemon.
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "xmonad";
+  networking.firewall.allowedTCPPorts = [ 3389 ];
+
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  programs.bash.enableCompletion = true;
+  # programs.mtr.enable = true;
+  programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
+
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+  services.openssh.enable = true;
+
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.extraUsers.lambdael = {
+    isNormalUser = true;
+    home = "/home/lambdael";
+    description = "lambdael";
+    extraGroups = [ "wheel" "audio" ];
+  };
+
   time.timeZone = "Asia/Tokyo";
 
   services.xserver = {
@@ -96,5 +97,10 @@ in {
     ((pkgs.callPackage ../packages/nix-home/package.nix) { })
   ];
 
+  # This value determines the NixOS release with which your system is to be
+  # compatible, in order to avoid breaking some software such as database
+  # servers. You should change this only after NixOS release notes say you
+  # should.
+  system.stateVersion = "18.03"; # Did you read the comment?
 
 }

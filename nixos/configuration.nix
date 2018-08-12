@@ -8,23 +8,15 @@ with pkgs;
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./machines/gtyun.nix
+      # ./machines/gtyun.nix
+      ./machines/niney.nix
     ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.bash.enableCompletion = true;
-  # programs.mtr.enable = true;
-  programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  # Enable the xrdp daemon.
-  services.xrdp.enable = true;
-  services.xrdp.defaultWindowManager = "xmonad";
-  networking.firewall.allowedTCPPorts = [ 3389 ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
