@@ -15,6 +15,7 @@ with pkgs;
     dnsutils
     nixops
     openssl
+    ##
   ];
   imports =
     [ # Include the results of the hardware scan.
