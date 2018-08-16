@@ -8,7 +8,7 @@ with pkgs;
 
      imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      #../hardware-configuration.nix
       # ../lib/pci-passthrough.nix
       ../role/gui.nix
       ../role/pythondev.nix
@@ -30,21 +30,7 @@ with pkgs;
   networking.hostName = "gtyun"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Select internationalisation properties.
-  i18n = {
-    consoleFont = "Lat2-Terminus32";
-    consoleKeyMap = "jp106";
-    defaultLocale = "en_US.UTF-8";
-    inputMethod = {
-      enabled = "fcitx";
-      fcitx.engines = with pkgs.fcitx-engines; [
-        anthy
-      ];
-      ibus.engines = with pkgs.ibus-engines; [ 
-        anthy
-      ];
-    };
-  };
+
     # Enable the xrdp daemon.
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "xmonad";
@@ -64,14 +50,8 @@ with pkgs;
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.lambdael = {
-    isNormalUser = true;
-    home = "/home/lambdael";
-    description = "lambdael";
-    extraGroups = [ "wheel" "audio" ];
-  };
 
-  time.timeZone = "Asia/Tokyo";
+
 
   services.xserver = {
     videoDrivers = [ "mesa" ];
@@ -92,6 +72,7 @@ with pkgs;
     # gnupg
     # pass
     htop
+    stack
     #ruby
     #xorg.xrdb
     ((pkgs.callPackage ../packages/nix-home/package.nix) { })

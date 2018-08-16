@@ -15,7 +15,5 @@
     qjackctl
     lxqt.pavucontrol-qt
   #  alsamixer
-
-
   ];
 }
