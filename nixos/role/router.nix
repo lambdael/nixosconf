@@ -7,9 +7,15 @@ in
   imports =  [
     ../services/ppp.nix
   ];
+<<<<<<< HEAD
   
   networking.domain = "uraba.yashiro";
   networking.nameservers = ["127.0.0.1" "8.8.8.8" ];
+=======
+
+  networking.domain = "home";
+  networking.nameservers = ["8.8.8.8"  "8.8.4.4" ];
+>>>>>>> f5907f1cabeb1027a295e1d97f00652d656a9491
 
   networking.firewall = {
     enable = true;
@@ -33,13 +39,18 @@ in
   };
 
   networking.interfaces = {
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> f5907f1cabeb1027a295e1d97f00652d656a9491
     enp1s0 = {
       useDHCP = false;
     };
 
     enp2s0 = {
         ipv4.addresses = [{
-          address = "192.168.12.1";
+          address = "192.168.1.1";
           prefixLength = 24;
         }];
 
@@ -47,13 +58,13 @@ in
 
     enp3s0 = {
         ipv4.addresses = [{
-          address = "192.168.13.1";
+          address = "192.168.1.1";
           prefixLength = 24;
         }];
     };
     enp4s0 = {
         ipv4.addresses = [{
-          address = "192.168.14.1";
+          address = "192.168.1.1";
           prefixLength = 24;
         }];
     };

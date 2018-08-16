@@ -11,11 +11,11 @@ with pkgs;
       #../hardware-configuration.nix
       # ../lib/pci-passthrough.nix
       ../role/gui.nix
-      ../role/pythondev.nix
-      ../role/nodejsdev.nix
+      #../role/pythondev.nix
+      #../role/nodejsdev.nix
      # ../role/audio.nix
      # ../role/unfree.nix
-      ../role/graphic.nix
+      #../role/graphic.nix
       ../role/vscode.nix
 
     ];
@@ -35,21 +35,6 @@ with pkgs;
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "xmonad";
   networking.firewall.allowedTCPPorts = [ 3389 ];
-
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.bash.enableCompletion = true;
-  # programs.mtr.enable = true;
-  programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
 
 
 
