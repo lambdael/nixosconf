@@ -16,6 +16,7 @@ with pkgs;
     nixops
     openssl
     ##
+    screenfetch
   ];
   imports =
     [ # Include the results of the hardware scan.
