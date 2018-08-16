@@ -46,6 +46,10 @@ with pkgs;
     "net.ipv6.conf.enp1s0.accept_ra" = 2;
   };
 
+    # Enable the xrdp daemon.
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "xmonad";
+  networking.firewall.allowedTCPPorts = [ 3389 ];
 
 
 
