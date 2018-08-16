@@ -17,6 +17,10 @@ with pkgs;
     openssl
     ##
     screenfetch
+    iptraf-ng
+    
+    tcptrack
+    
   ];
   imports =
     [ # Include the results of the hardware scan.
@@ -45,11 +49,11 @@ with pkgs;
     "net.ipv6.conf.all.forwarding" = true;
     "net.ipv6.conf.enp1s0.accept_ra" = 2;
   };
-
+  services.nix-serve.enable = true;
     # Enable the xrdp daemon.
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "xmonad";
-  networking.firewall.allowedTCPPorts = [ 3389 ];
+ # networking.firewall.allowedTCPPorts = [ 3389 ];
 
 
 

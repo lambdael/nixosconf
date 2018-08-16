@@ -7,9 +7,9 @@ in
   imports =  [
     ../services/ppp.nix
   ];
-
-  networking.domain = "home";
-  networking.nameservers = ["8.8.8.8"  "8.8.4.4" ];
+  
+  networking.domain = "uraba.yashiro";
+  networking.nameservers = ["127.0.0.1" "8.8.8.8" ];
 
   networking.firewall = {
     enable = true;
@@ -33,15 +33,13 @@ in
   };
 
   networking.interfaces = {
-
-
     enp1s0 = {
       useDHCP = false;
     };
 
     enp2s0 = {
         ipv4.addresses = [{
-          address = "192.168.1.1";
+          address = "192.168.12.1";
           prefixLength = 24;
         }];
 
@@ -49,13 +47,13 @@ in
 
     enp3s0 = {
         ipv4.addresses = [{
-          address = "192.168.2.1";
+          address = "192.168.13.1";
           prefixLength = 24;
         }];
     };
     enp4s0 = {
         ipv4.addresses = [{
-          address = "192.168.3.1";
+          address = "192.168.14.1";
           prefixLength = 24;
         }];
     };
@@ -69,12 +67,20 @@ in
   #   hwMode = "g";
   #   channel = 10;
   # };
-
+  networking.networkmanager.dynamicHosts.enable = true;
+  networking.networkmanager.useDnsmasq = true;
+  networking.networkmanager.dynamicHosts.hostsDirs = [/home/lambeael/hosts];
   services.dnsmasq = {
     enable = true;
-    servers = [ "8.8.8.8" "8.8.4.4" ];
+    resolveLocalQueries = true;
+    servers = [ "210.130.0.1"  "8.8.8.8"  ];
+    alwaysKeepRunning = false;
     extraConfig = ''
-      domain=lan
+      # domain-needed
+      # bogus-priv
+      # expand-hosts
+      # domain=uraba.yashiro
+      # local=/uraba.yashiro/
       interface=enp2s0
       interface=enp3s0
       interface=enp4s0
@@ -82,7 +88,7 @@ in
       dhcp-range=192.168.1.10,192.168.1.254,24h
       dhcp-range=192.168.2.10,192.168.2.254,24h
       dhcp-range=192.168.3.10,192.168.3.254,24h
-      dhcp-host=80:ee:73:cd:d3:7f,192.168.4.1
+      dhcp-host=80:ee:73:cd:d3:7f,192.168.1.5
     '';
   };
 

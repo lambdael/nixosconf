@@ -13,6 +13,7 @@ with pkgs;
       # ./machines/gtyun.nix
       # ./machines/niney.nix
     ];
+  nix.binaryCaches = [http://192.168.1.1:5000/];
 
   fileSystems."/home/lambdael/usb" =
     { device = "/dev/disk/by-uuid/6630-6234";
