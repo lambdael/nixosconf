@@ -60,6 +60,7 @@ with pkgs;
     stack
     #ruby
     #xorg.xrdb
+    nixops
     ((pkgs.callPackage ../packages/nix-home/package.nix) { })
   ];
 

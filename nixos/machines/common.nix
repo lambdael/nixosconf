@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 with pkgs;
  {
-  nix.binaryCaches = [http://192.168.1.1:5000/];
+  nix.binaryCaches = [http://192.168.2.1:5000/];
 
   fileSystems."/home/lambdael/usb" =
     { device = "/dev/disk/by-uuid/6630-6234";
@@ -18,7 +18,7 @@ with pkgs;
     openssh = {
       enable = true;
       #permitRootLogin = "without-password";
-      passwordAuthentication = true;
+      passwordAuthentication = false;
     };
   };
   # Open ports in the firewall.
@@ -56,7 +56,10 @@ with pkgs;
     home = "/home/lambdael";
     description = "lambdael";
     extraGroups = [ "wheel" "audio" ];
-    openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIAIqSwLLB7QYkvtiIF1UZZp/2g2LUlL3hIDx1D+J8MQ lambdael" ];
+    openssh.authorizedKeys.keys = [ 
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIAIqSwLLB7QYkvtiIF1UZZp/2g2LUlL3hIDx1D+J8MQ lambdael"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP4uR+KUzPVNfWkynDOmbi1p3Wy0+F8yj3/GyKRmb4l/ lambdael@gtyun"
+     ];
   };
 
   # This value determines the NixOS release with which your system is to be

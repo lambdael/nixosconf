@@ -9,9 +9,9 @@ with pkgs;
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./machines/common.nix
-      ./machines/lrr.nix
+      #./machines/lrr.nix
        #./machines/proct.nix
-      # ./machines/gtyun.nix
+       ./machines/gtyun.nix
       # ./machines/niney.nix
     ];
 

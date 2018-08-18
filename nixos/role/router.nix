@@ -7,15 +7,9 @@ in
   imports =  [
     ../services/ppp.nix
   ];
-<<<<<<< HEAD
   
   networking.domain = "uraba.yashiro";
   networking.nameservers = ["127.0.0.1" "8.8.8.8" ];
-=======
-
-  networking.domain = "home";
-  networking.nameservers = ["8.8.8.8"  "8.8.4.4" ];
->>>>>>> f5907f1cabeb1027a295e1d97f00652d656a9491
 
   networking.firewall = {
     enable = true;
@@ -39,11 +33,6 @@ in
   };
 
   networking.interfaces = {
-<<<<<<< HEAD
-=======
-
-
->>>>>>> f5907f1cabeb1027a295e1d97f00652d656a9491
     enp1s0 = {
       useDHCP = false;
     };
@@ -96,10 +85,10 @@ in
       interface=enp3s0
       interface=enp4s0
       bind-interfaces
-      dhcp-range=192.168.1.10,192.168.1.254,24h
-      dhcp-range=192.168.2.10,192.168.2.254,24h
-      dhcp-range=192.168.3.10,192.168.3.254,24h
-      dhcp-host=80:ee:73:cd:d3:7f,192.168.1.5
+      dhcp-range=192.168.1.10,192.168.1.254,8m
+      dhcp-range=192.168.2.10,192.168.2.254,8m
+      dhcp-range=192.168.3.10,192.168.3.254,8m
+      # dhcp-host=80:ee:73:cd:d3:7f,192.168.1.5
     '';
   };
 
