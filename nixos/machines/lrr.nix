@@ -15,15 +15,12 @@ with pkgs;
     dnsutils
     nixops
     openssl
-<<<<<<< HEAD
     ##
     screenfetch
     iptraf-ng
     
     tcptrack
     
-=======
->>>>>>> f5907f1cabeb1027a295e1d97f00652d656a9491
   ];
   imports =
     [ # Include the results of the hardware scan.
@@ -52,15 +49,11 @@ with pkgs;
     "net.ipv6.conf.all.forwarding" = true;
     "net.ipv6.conf.enp1s0.accept_ra" = 2;
   };
-<<<<<<< HEAD
   services.nix-serve.enable = true;
     # Enable the xrdp daemon.
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "xmonad";
  # networking.firewall.allowedTCPPorts = [ 3389 ];
-=======
-
->>>>>>> f5907f1cabeb1027a295e1d97f00652d656a9491
 
 
 
