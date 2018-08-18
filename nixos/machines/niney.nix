@@ -31,12 +31,6 @@ in {
   networking.hostName = "niney"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Select internationalisation properties.
-  i18n = {
-    inputMethod = {
-      enabled = "ibus";
-    };
-  };
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
