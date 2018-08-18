@@ -9,7 +9,7 @@ let
 in {
   imports =
     [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    #./hardware-configuration.nix
       # ../lib/pci-passthrough.nix
     ../role/minimal.nix
      # ../role/gui.nix
