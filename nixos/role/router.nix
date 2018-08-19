@@ -32,12 +32,22 @@ in
 #    externalInterface = "enp1s0";
   };
 
+   networking = {
+      vlans.lan_port = {
+        interface = "enp2s0";
+        id = 33;
+      };
+    
+      bridges = {
+        br0.interfaces = [ "lan_port" "enp3s0" "enp4s0" ];
+      };
+   };
+
   networking.interfaces = {
     enp1s0 = {
       useDHCP = false;
     };
-
-    enp2s0 = {
+    br0 = {
         ipv4.addresses = [{
           address = "192.168.1.1";
           prefixLength = 24;
@@ -45,18 +55,18 @@ in
 
     };
 
-    enp3s0 = {
-        ipv4.addresses = [{
-          address = "192.168.1.1";
-          prefixLength = 24;
-        }];
-    };
-    enp4s0 = {
-        ipv4.addresses = [{
-          address = "192.168.1.1";
-          prefixLength = 24;
-        }];
-    };
+    # enp3s0 = {
+    #     ipv4.addresses = [{
+    #       address = "192.168.2.1";
+    #       prefixLength = 24;
+    #     }];
+    # };
+    # enp4s0 = {
+    #     ipv4.addresses = [{
+    #       address = "192.168.3.1";
+    #       prefixLength = 24;
+    #     }];
+    # };
   };
 
   # services.hostapd = {

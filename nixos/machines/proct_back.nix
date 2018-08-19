@@ -74,15 +74,16 @@ in {
     "net.ipv6.conf.enp1s0.accept_ra" = 2;
   };
 
+  services.nix-serve.enable = true;
 
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking = {
     hostName = "proct";
-    domain = "tkmy46.lan";
+    domain = "uraba.yashiro";
     # hostId = "fa4b7394";
     nameservers = [ 
-      #"10.40.33.1"
+      "192.168.1.1"
       "8.8.8.8" ];
     vlans = {
       # lan_port = {
@@ -106,33 +107,33 @@ in {
       };
       enp2s0 = {
         ipv4.addresses = [{
-          address = "10.40.33.1";
+          address = "192.168.1.1";
           prefixLength = 24;
         }];
       };
       enp3s0 = {
         ipv4.addresses = [{
-          address = "10.40.33.1";
+          address = "192.168.2.1";
           prefixLength = 24;
         }];
       };
       enp4s0 = {
         ipv4.addresses = [{
-          address = "10.40.33.1";
+          address = "192.168.3.1";
           prefixLength = 24;
         }];
       };
-      voip = {
-         ipv4.addresses = [{
-           address = "10.40.40.1";
-           prefixLength = 24;
-         }];
-      };
+      # voip = {
+      #    ipv4.addresses = [{
+      #      address = "10.40.40.1";
+      #      prefixLength = 24;
+      #    }];
+      # };
     };
     nat = {
       enable = true;
       externalInterface = "ppp0";
-      internalIPs = [ "10.40.33.0/24" ];
+      internalIPs = [ "192.168.1.0/24" "192.168.2.0/24" "192.168.3.0/24" ];
       internalInterfaces = [ "enp2s0" "enp3s0" "enp4s0"
       # "voip"  
         # "ovpn-guest" 
@@ -143,7 +144,7 @@ in {
         #{ sourcePort = 1194; destination = "10.40.33.20:1194"; proto = "udp"; }
       ];
     };
-    enableIPv6 = false;
+    enableIPv6 = true;
     dhcpcd.persistent = true;
     dhcpcd.extraConfig = ''
       noipv6rs
@@ -154,13 +155,14 @@ in {
   firewall = {
     enable = true;
     allowPing = true;
-    trustedInterfaces = [ "enp4s0" "enp2s0" "enp3s0" ];
+    trustedInterfaces = ["br0" "enp4s0" "enp2s0" "enp3s0" ];
     checkReversePath = false; # https://github.com/NixOS/nixpkgs/issues/10101
     allowedTCPPorts = [
-      22    # ssh
-      80    # http
-      443   # https
-      2222  # git
+      # 22    # ssh
+      # 80    # http
+      # 443   # https
+      # 2222  # git
+	3389
     ];
     allowedUDPPorts = [ ];
   };
@@ -231,14 +233,14 @@ in {
           log-queries: no
           verbosity: 4
           do-not-query-localhost: no
-          local-zone: "tkmy46.lan" nodefault
-          domain-insecure: "tkmy46.lan"
+          local-zone: "uraba.yashiro" nodefault
+          domain-insecure: "uraba.yashiro"
         forward-zone:
-          name: "tkmy46.lan"
+          name: "uraba.yashiro"
           forward-addr: ::1@5353
 #          forward-addr: 192.168.11.1
         stub-zone:
-          name: "tkmy46.lan"
+          name: "uraba.yashiro"
           stub-addr: 127.0.0.1@5353
       '';
     };
@@ -249,19 +251,19 @@ in {
       interfaces = [ "127.0.0.1" "::1" ];
       port = 5353;
       remoteControl.enable = true;
-      zones = {"tkmy46.lan.".data = ''
-        @ IN SOA ns.tkmy46.lan. proct.tkmy46.lan. (
+      zones = {"tkmuraba.yashiro.".data = ''
+        @ IN SOA ns.uraba.yashiro. proct.uraba.yashiro. (
             2009082401 ; serial
             3600 ; refresh (1 hour)
             1200 ; retry (20 min.)
             1209600 ;                expire (2 weeks)
             900 ; minimum (15 min.)
         )
-        N NS ns.tkmy46.lan.
-        ns          IN A       10.40.33.1
-        proct       IN A       10.40.33.1
-        gtyun       IN A       10.40.33.94
-        niney       IN A       10.40.33.95
+        N NS ns.tkmuraba.yashiro.
+        ns          IN A       192.168.1.1
+        proct       IN A       192.168.1.1
+        gtyun       IN A       192.168.2.2
+        niney       IN A       192.168.2.3
         www         IN CNAME   niney
       '';
 
@@ -299,22 +301,22 @@ in {
         "enp2s0" "enp3s0" "enp4s0" ];
       enable = true;
       machines = [
-        { hostName = "gtyun"; ethernetAddress = "80:ee:73:cd:d3:7f"; ipAddress = "10.40.33.94"; }
-        { hostName = "niney"; ethernetAddress = "00:1f:d0:a1:e5:cd"; ipAddress = "10.40.33.95"; }
+        { hostName = "gtyun"; ethernetAddress = "80:ee:73:cd:d3:7f"; ipAddress = "192.168.2.2"; }
+        { hostName = "niney"; ethernetAddress = "00:1f:d0:a1:e5:cd"; ipAddress = "192.168.2.3"; }
       ];
       extraConfig = ''
         option arch code 93 = unsigned integer 16;
         option rpiboot code 43 = text;
-        subnet 10.40.33.0 netmask 255.255.255.0 {
-          option domain-search "tkmy46.lan";
+        subnet 192.168.1.0 netmask 255.255.255.0 {
+          option domain-search "uraba.yashiro";
           option subnet-mask 255.255.255.0;
-          option broadcast-address 10.40.33.255;
-          option routers 10.40.33.1;
-          option domain-name-servers 10.40.33.1;
-          range 10.40.33.100 10.40.33.200;
-          next-server 10.40.33.1;
+          option broadcast-address 192.168.1.255;
+          option routers 192.168.1.1;
+          option domain-name-servers 192.168.1.1;
+          range 192.168.1.100 192.168.1.200;
+          next-server 192.168.1.1;
           if exists user-class and option user-class = "iPXE" {
-            filename "http://netboot.tkmy46.lan/boot.php?mac=''${net0/mac}&asset=''${asset:uristring}&version=''${builtin/version}";
+            filename "http://netboot.uraba.yashiro/boot.php?mac=''${net0/mac}&asset=''${asset:uristring}&version=''${builtin/version}";
           } else {
             if option arch = 00:07 or option arch = 00:09 {
               filename = "x86_64-ipxe.efi";
@@ -327,7 +329,7 @@ in {
       '';
     };
     radvd = { #Router Advertisement Daemon
-      enable = false;
+      enable = true;
       config = ''
         interface br0
         {
@@ -366,7 +368,7 @@ in {
         move_metadata_to_field: journal
         default_type: journal
       output.kafka:
-        hosts: ["optina.tkmy46.lan:9092"]
+        hosts: ["proct.tkuraba.yashiro:9092"]
         topic: KAFKA-LOGSTASH-ELASTICSEARCH
       '';
     };
@@ -456,6 +458,10 @@ in {
   };
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "xmonad";
+
+
 
 
 }
