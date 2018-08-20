@@ -13,13 +13,6 @@ with pkgs;
     git
     tcpdump
     dnsutils
-    nixops
-    openssl
-    ##
-    screenfetch
-    iptraf-ng
-    
-    tcptrack
     
   ];
   imports =

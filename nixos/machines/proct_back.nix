@@ -76,6 +76,7 @@ in {
 
 
 
+
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking = {
     hostName = "proct";
@@ -148,16 +149,18 @@ in {
     enableIPv6 = true;
     dhcpcd.persistent = true;
     dhcpcd.extraConfig = ''
-      noipv6rs
+#      noipv6rs
       interface ${externalInterface}
       ia_na 1
       ia_pd 2/::/60 br0/0/64
     '';
 #      ia_pd 2/::/60 br0/0/64 enp2s0/0/64 enp3s0/0/64 voip/1/64
   firewall = {
-    enable = false;
+    enable = true;
     allowPing = true;
-    trustedInterfaces = ["br0" "enp4s0" "enp2s0" "enp3s0" ];
+    trustedInterfaces = ["br0" 
+    #"enp4s0" "enp2s0" "enp3s0"
+     ];
     checkReversePath = false; # https://github.com/NixOS/nixpkgs/issues/10101
     allowedTCPPorts = [
       # 22    # ssh
@@ -204,9 +207,20 @@ in {
         password = secrets.pppoe.password;
         pppoe = true;
         extraOptions = ''
-          noauth
+
+
+          noipdefault
           defaultroute
+          replacedefaultroute
+          #hide-password
+          noauth
           persist
+          #mtu 1492
+          #plugin rp-pppoe.so
+          +ipv6
+          ipparam ipv6default
+
+
           maxfail 0
           holdoff 5
           lcp-echo-interval 15
@@ -220,32 +234,30 @@ in {
     #DNS Cache server
     unbound = {
       enable = true;
-      interfaces = [ "0.0.0.0" "::" ];
+      interfaces = [ "0.0.0.0" "::" "br0" ];
       allowedAccess = [
         "127.0.0.0/8"
-        "10.40.33.0/24"
-        "10.39.0.0/24"
-        "10.40.9.39/32"
+        #"::1/128"
         "192.168.1.0/24"
-        "192.168.2.0/24"
         "2601:98a:4101:bff0::/60"
         "2601:98a:4000:3900::/64"
       ];
       extraConfig = ''
         # server indent level
           logfile: "/home/lambdael/unbound.log"
-          log-queries: no
+          log-queries: yes
           verbosity: 4
           do-not-query-localhost: no
           local-zone: "uraba.yashiro" nodefault
           domain-insecure: "uraba.yashiro"
         forward-zone:
           name: "uraba.yashiro"
-          forward-addr: ::1@5353
-#          forward-addr: 192.168.11.1
-        # stub-zone:
-        #   name: "uraba.yashiro"
-        #   stub-addr: 127.0.0.1@5353
+          forward-addr: 192.168.1.1@5353
+#          forward-addr: ::1@5353
+#         forward-addr: 192.168.11.1
+        stub-zone:
+          name: "uraba.yashiro"
+          stub-addr: ::1@5353
       '';
     };
 

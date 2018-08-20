@@ -66,6 +66,17 @@ nix.binaryCaches = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO4HrbPAWEnfEakKwg0zCT4gwEC1kMkstXpSkd3jznop lambdael@proct"
      ];
   };
+  environment.systemPackages = with pkgs; [
+
+    nixops
+    openssl
+    screenfetch
+    iptraf-ng
+    tcpdump
+    dnsutils
+
+    tcptrack
+  ];
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
