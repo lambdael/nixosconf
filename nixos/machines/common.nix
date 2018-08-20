@@ -4,6 +4,7 @@ with pkgs;
 nix.binaryCaches = [
   https://cache.nixos.org/
 #	http://192.168.1.1:5000/
+#	ssh://192.168.1.1/
 ];
 
   fileSystems."/home/lambdael/usb" =
@@ -62,6 +63,7 @@ nix.binaryCaches = [
     openssh.authorizedKeys.keys = [ 
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIAIqSwLLB7QYkvtiIF1UZZp/2g2LUlL3hIDx1D+J8MQ lambdael"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP4uR+KUzPVNfWkynDOmbi1p3Wy0+F8yj3/GyKRmb4l/ lambdael@gtyun"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO4HrbPAWEnfEakKwg0zCT4gwEC1kMkstXpSkd3jznop lambdael@proct"
      ];
   };
 
