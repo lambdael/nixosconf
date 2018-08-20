@@ -32,16 +32,15 @@ in
 #    externalInterface = "enp1s0";
   };
 
-   networking = {
-      vlans.lan_port = {
+   networking.vlans.lan_port = {
         interface = "enp2s0";
         id = 33;
       };
     
-      bridges = {
+   networking.bridges = {
         br0.interfaces = [ "lan_port" "enp3s0" "enp4s0" ];
       };
-   };
+   
 
   networking.interfaces = {
     enp1s0 = {

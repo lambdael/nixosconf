@@ -2,6 +2,7 @@
 with pkgs;
  {
 nix.binaryCaches = [
+  https://cache.nixos.org/
 #	http://192.168.1.1:5000/
 ];
 

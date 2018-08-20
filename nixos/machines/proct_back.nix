@@ -8,7 +8,7 @@ let
 
   externalInterface = "ppp0";
   internalInterfaces = [
-    #"br0"
+    "br0"
     "enp2s0"
     "enp3s0"
     "enp4s0"
@@ -74,7 +74,6 @@ in {
     "net.ipv6.conf.enp1s0.accept_ra" = 2;
   };
 
-  services.nix-serve.enable = true;
 
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -86,17 +85,17 @@ in {
       "192.168.1.1"
       "8.8.8.8" ];
     vlans = {
-      # lan_port = {
-      #   interface = "enp2s0";
-      #   id = 33;
-      # };
-      voip = {
-        interface = "enp3s0";
-        id = 40;
+      lan_port = {
+        interface = "enp2s0";
+        id = 33;
       };
+      # voip = {
+      #   interface = "enp3s0";
+      #   id = 40;
+      # };
     };
     bridges = {
-      #br0.interfaces = [ "lan_port" "enp3s0" "enp4s0" ];
+      br0.interfaces = [ "lan_port" "enp3s0" "enp4s0" ];
     };
     interfaces = {
       # ${externalInterface} = {
@@ -105,24 +104,24 @@ in {
       enp1s0 = {
         useDHCP = false;
       };
-      enp2s0 = {
+      br0 = {
         ipv4.addresses = [{
           address = "192.168.1.1";
           prefixLength = 24;
         }];
       };
-      enp3s0 = {
-        ipv4.addresses = [{
-          address = "192.168.2.1";
-          prefixLength = 24;
-        }];
-      };
-      enp4s0 = {
-        ipv4.addresses = [{
-          address = "192.168.3.1";
-          prefixLength = 24;
-        }];
-      };
+      # enp3s0 = {
+      #   ipv4.addresses = [{
+      #     address = "192.168.2.1";
+      #     prefixLength = 24;
+      #   }];
+      # };
+      # enp4s0 = {
+      #   ipv4.addresses = [{
+      #     address = "192.168.3.1";
+      #     prefixLength = 24;
+      #   }];
+      # };
       # voip = {
       #    ipv4.addresses = [{
       #      address = "10.40.40.1";
@@ -133,8 +132,10 @@ in {
     nat = {
       enable = true;
       externalInterface = "ppp0";
-      internalIPs = [ "192.168.1.0/24" "192.168.2.0/24" "192.168.3.0/24" ];
-      internalInterfaces = [ "enp2s0" "enp3s0" "enp4s0"
+      internalIPs = [ "192.168.1.0/24" 
+      #"192.168.2.0/24" "192.168.3.0/24"
+       ];
+      internalInterfaces = [ "br0"
       # "voip"  
         # "ovpn-guest" 
         # "br0"
@@ -150,10 +151,11 @@ in {
       noipv6rs
       interface ${externalInterface}
       ia_na 1
-      ia_pd 2/::/60 enp2s0/0/64 enp3s0/0/64 voip/1/64
+      ia_pd 2/::/60 br0/0/64
     '';
+#      ia_pd 2/::/60 br0/0/64 enp2s0/0/64 enp3s0/0/64 voip/1/64
   firewall = {
-    enable = true;
+    enable = false;
     allowPing = true;
     trustedInterfaces = ["br0" "enp4s0" "enp2s0" "enp3s0" ];
     checkReversePath = false; # https://github.com/NixOS/nixpkgs/issues/10101
@@ -212,6 +214,7 @@ in {
         '';
       };
     };
+  nix-serve.enable = true;
 
 
     #DNS Cache server
@@ -223,7 +226,8 @@ in {
         "10.40.33.0/24"
         "10.39.0.0/24"
         "10.40.9.39/32"
-        "192.168.11.0/16"
+        "192.168.1.0/24"
+        "192.168.2.0/24"
         "2601:98a:4101:bff0::/60"
         "2601:98a:4000:3900::/64"
       ];
@@ -239,9 +243,9 @@ in {
           name: "uraba.yashiro"
           forward-addr: ::1@5353
 #          forward-addr: 192.168.11.1
-        stub-zone:
-          name: "uraba.yashiro"
-          stub-addr: 127.0.0.1@5353
+        # stub-zone:
+        #   name: "uraba.yashiro"
+        #   stub-addr: 127.0.0.1@5353
       '';
     };
 
@@ -251,7 +255,7 @@ in {
       interfaces = [ "127.0.0.1" "::1" ];
       port = 5353;
       remoteControl.enable = true;
-      zones = {"tkmuraba.yashiro.".data = ''
+      zones = {"uraba.yashiro.".data = ''
         @ IN SOA ns.uraba.yashiro. proct.uraba.yashiro. (
             2009082401 ; serial
             3600 ; refresh (1 hour)
@@ -259,11 +263,11 @@ in {
             1209600 ;                expire (2 weeks)
             900 ; minimum (15 min.)
         )
-        N NS ns.tkmuraba.yashiro.
+        N NS ns.uraba.yashiro.
         ns          IN A       192.168.1.1
         proct       IN A       192.168.1.1
-        gtyun       IN A       192.168.2.2
-        niney       IN A       192.168.2.3
+        gtyun       IN A       192.168.1.6
+        niney       IN A       192.168.1.3
         www         IN CNAME   niney
       '';
 
@@ -297,17 +301,21 @@ in {
 
     dhcpd4 = {
       interfaces = [
-        # "br0" 
-        "enp2s0" "enp3s0" "enp4s0" ];
+         "br0" 
+        # "lan_port"
+        # "enp2s0" 
+        #"enp3s0" "enp4s0"
+         ];
       enable = true;
       machines = [
-        { hostName = "gtyun"; ethernetAddress = "80:ee:73:cd:d3:7f"; ipAddress = "192.168.2.2"; }
-        { hostName = "niney"; ethernetAddress = "00:1f:d0:a1:e5:cd"; ipAddress = "192.168.2.3"; }
+        { hostName = "gtyun"; ethernetAddress = "80:ee:73:cd:d3:7f"; ipAddress = "192.168.1.6"; }
+        { hostName = "niney"; ethernetAddress = "00:1f:d0:a1:e5:cd"; ipAddress = "192.168.1.3"; }
       ];
       extraConfig = ''
         option arch code 93 = unsigned integer 16;
         option rpiboot code 43 = text;
         subnet 192.168.1.0 netmask 255.255.255.0 {
+          option domain-name "uraba.yashiro";
           option domain-search "uraba.yashiro";
           option subnet-mask 255.255.255.0;
           option broadcast-address 192.168.1.255;
@@ -329,7 +337,7 @@ in {
       '';
     };
     radvd = { #Router Advertisement Daemon
-      enable = true;
+      enable = false;
       config = ''
         interface br0
         {
@@ -368,7 +376,7 @@ in {
         move_metadata_to_field: journal
         default_type: journal
       output.kafka:
-        hosts: ["proct.tkuraba.yashiro:9092"]
+        hosts: ["proct.uraba.yashiro:9092"]
         topic: KAFKA-LOGSTASH-ELASTICSEARCH
       '';
     };
