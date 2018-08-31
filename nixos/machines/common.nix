@@ -1,12 +1,18 @@
 { config, pkgs, ... }:
 with pkgs;
  {
-nix.binaryCaches = [
-  https://cache.nixos.org/
-#	http://192.168.1.1:5000/
-#	ssh://192.168.1.1/
-];
-
+  nix={
+    binaryCaches = [
+    https://cache.nixos.org/
+    https://lambdael.cachix.org
+  #	http://192.168.1.1:5000/
+  #	ssh://192.168.1.1/
+  ];
+    binaryCachePublicKeys = [
+      "lambdael.cachix.org-1:zzFfq6IdazT/9Ihowd74k+gClvHD239xgdea/7ojv34="
+    ];
+    trustedUsers = [ "root" "lambdael" ];
+  };
   fileSystems."/home/lambdael/usb" =
     { device = "/dev/disk/by-uuid/6630-6234";
       options = [ "noauto" "x-systemd.automount" ];
@@ -43,13 +49,14 @@ nix.binaryCaches = [
     consoleKeyMap = "jp106";
     defaultLocale = "en_US.UTF-8";
     inputMethod = {
+      # ftcitx does not work in RDP/. 2018
       enabled = "fcitx";
       fcitx.engines = with pkgs.fcitx-engines; [
         anthy
       ];
-      ibus.engines = with pkgs.ibus-engines; [ 
-        anthy
-      ];
+      # ibus.engines = with pkgs.ibus-engines; [ 
+      #   anthy
+      # ];
     };
   };
   time.timeZone = "Asia/Tokyo";
@@ -60,6 +67,7 @@ nix.binaryCaches = [
     home = "/home/lambdael";
     description = "lambdael";
     extraGroups = [ "wheel" "audio" ];
+    shell = fish;
     openssh.authorizedKeys.keys = [ 
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIAIqSwLLB7QYkvtiIF1UZZp/2g2LUlL3hIDx1D+J8MQ lambdael"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP4uR+KUzPVNfWkynDOmbi1p3Wy0+F8yj3/GyKRmb4l/ lambdael@gtyun"

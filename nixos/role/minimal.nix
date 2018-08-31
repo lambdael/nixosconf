@@ -11,9 +11,12 @@
     tmux
     # gnupg
     # pass
-    htop
+    htop 
+    ranger
+    w3m
     #ruby
     #xorg.xrdb
-    ((pkgs.callPackage ../packages/nix-home/package.nix) { })
+    # ((pkgs.callPackage ../packages/hie/package.nix) { })
+    # ((pkgs.callPackage ../packages/nix-home/package.nix) { })
   ];
 }

@@ -252,8 +252,8 @@ in {
           domain-insecure: "uraba.yashiro"
         forward-zone:
           name: "uraba.yashiro"
-          forward-addr: 192.168.1.1@5353
-#          forward-addr: ::1@5353
+#          forward-addr: 192.168.1.1@5353
+          forward-addr: ::1@5353
 #         forward-addr: 192.168.11.1
         stub-zone:
           name: "uraba.yashiro"

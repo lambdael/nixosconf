@@ -42,6 +42,8 @@
       dina-font
       proggyfonts
       anonymousPro
+      source-code-pro
+      hasklig
     ];
     fontconfig = {
       enable = true;

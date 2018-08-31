@@ -16,6 +16,9 @@ with pkgs;
      # ../role/audio.nix
      # ../role/unfree.nix
       #../role/graphic.nix
+      ../role/minimal.nix
+      ../role/haskelldev.nix
+      ../role/emacs.nix
       ../role/vscode.nix
 
     ];
@@ -27,7 +30,6 @@ with pkgs;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "gtyun"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
 
@@ -58,16 +60,30 @@ with pkgs;
     # pass
     htop
     stack
+    termite
+    compton
+    sqlite
+    # neovim
+    # haskellPackages.nvim-hs
+    # haskellPackages.nvim-hs-contrib
+    # haskellPackages.nvim-hs-ghcid 
     #ruby
     #xorg.xrdb
     nixops
     ((pkgs.callPackage ../packages/nix-home/package.nix) { })
   ];
-
+  nix.binaryCaches = [ "https://cache.nixos.org/" "https://nixcache.reflex-frp.org" ];
+  nix.binaryCachePublicKeys = [ "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" ];
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "18.03"; # Did you read the comment?
-
+  services.compton.enable=true;
+  # services.compton.blur = true;
+  services.compton.fade = true;
+  services.compton.fadeDelta = 5;
+  services.compton.inactiveOpacity = "0.8";
+  services.compton.shadow = false;
+  # programs.vim.defaultEditor = true;
 }
