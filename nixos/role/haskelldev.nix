@@ -18,7 +18,7 @@ myHaskellEnv = pkgs.haskell.packages.ghc822.ghcWithPackages
                         hoogle #(optional for haskell-mode and helm-hoogle)
                         #ghc-mod #(optional for completion)
 
-                        intero #(optional for completion)
+                        #intero #(optional for completion)
                         cabal-install
 
                         xmonad
@@ -32,7 +32,7 @@ in {
   environment.systemPackages = with pkgs; [
     myHaskellEnv
     stack 
-    
+    # haskellPackages.ghc-mod
     gnumake
     gcc
 

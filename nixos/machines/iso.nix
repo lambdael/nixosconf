@@ -10,19 +10,45 @@ with pkgs;
     [ # Include the results of the hardware scan.
       #../hardware-configuration.nix
       # ../lib/pci-passthrough.nix
-      ../role/gui.nix
+       ../role/gui.nix
       #../role/pythondev.nix
-      #../role/nodejsdev.nix
+      #../role/nodsjsdev.nix
      # ../role/audio.nix
      # ../role/unfree.nix
       #../role/graphic.nix
       ../role/minimal.nix
       # ../role/haskelldev.nix
-      ../role/emacs.nix
+      # ../role/emacs.nix
       ../role/vscode.nix
       ../role/jp106keyboard.nix
       
     ];
+      networking.hostName = "iso"; # Define your hostname.
+  fonts.fontconfig = {
+    enable = true;
+    dpi = 128;
+    defaultFonts = {
+        monospace = [ 
+          "Source Code Pro 18"
+          "IPAGothic"
+          "Baekmuk Dotum"
+        ];
+        serif = [ 
+          "Source Code Pro 18"
+          "DejaVu Serif"
+          "IPAPMincho"
+          "Baekmuk Batang"
+        ];
+        sansSerif = [
+          "Source Code Pro 18"
+          "DejaVu Sans"
+          "IPAPGothic"
+          "Baekmuk Dotum"
+        ];
+      };
+
+  };     
+
   nixpkgs.config = {
      allowUnfree = true; #for?: vscode
       # more stuff
@@ -30,18 +56,36 @@ with pkgs;
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # users.users.lambdael.cryptHomeLuks = "/dev/disk/by-uuid/97335df2-8ae2-4b95-a44f-c91c00627304";
+  # fileSystems = {
+  #   "/home/lambdaelbak" = {
+  #     encrypted.enable = true;
+  #     encrypted.label = "lambdael";
+  #     encrypted.blkDev = "/dev/disk/by-uuid/97335df2-8ae2-4b95-a44f-c91c00627304";
+  #     device = "/dev/mapper/lambdael";
+  #     fsType = "ext4";
+  #     options =[
+  #       "noauto,x-systemd.automount,x-systemd.idle-timeout=10min"
+  #       "users"
+  #       "nofail"
+  #       "nodev"
+  #       "nosuid"
+  #       "relatime"
+  #     ];
+      
+  #   };
+  # };
+  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
- fileSystems."/share" =
-   { device = "/dev/disk/by-uuid/a0ce370b-6008-4c2f-aaa6-79d09ec74604";
-     fsType = "ext4";
-   };
 
-
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
+  # boot.initrd.luks.devices = {
+  #   "lambdael" = {
+  #     device = "/dev/disk/by-uuid/97335df2-8ae2-4b95-a44f-c91c00627304";
+  #   };
+  # };
 
     # Enable the xrdp daemon.
-  services.xrdp.enable = true;
+  services.xrdp.enable = false;
   services.xrdp.defaultWindowManager = "xmonad";
   networking.firewall.allowedTCPPorts = [ 3389 ];
 
@@ -57,7 +101,12 @@ with pkgs;
   environment.systemPackages = with pkgs; [
     #wget
     #vim
-    # syslinux
+    rxvt_unicode-with-plugins
+    fbterm
+ #   nerdfonts
+    vimHugeX
+    lesspipe
+  # syslinux
   ];
   # nix.binaryCaches = [ "https://cache.nixos.org/" "https://nixcache.reflex-frp.org" ];
   # nix.binaryCachePublicKeys = [ "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" ];
@@ -66,7 +115,7 @@ with pkgs;
   # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "18.03"; # Did you read the comment?
-  services.compton.enable=false;
+  services.compton.enable=true;
   # services.compton.blur = true;
   # services.compton.fade = true;
   # services.compton.fadeDelta = 5;

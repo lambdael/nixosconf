@@ -6,6 +6,9 @@ https://wiki.archlinux.org/index.php/EFI_System_Partition
 
 
 ```bash
+
+lsblk -f
+
 fdisk /dev/sdc
 
 

@@ -13,6 +13,7 @@ with pkgs;
        #./machines/proct.nix
        ./machines/gtyun.nix
       # ./machines/niney.nix
+      ./users/users.nix
     ];
   networking.hostName = "gtyun"; # Define your hostname.
 

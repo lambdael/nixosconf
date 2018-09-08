@@ -22,13 +22,13 @@ with pkgs;
       # ../lib/pci-passthrough.nix
     ../role/minimal.nix
     ../role/router.nix
-    ../role/gui.nix
+    #../role/gui.nix
      # ../role/pythondev.nix
      # ../role/nodejsdev.nix
      # ../role/audio.nix
      # ../role/unfree.nix
      # ../role/graphic.nix
-    ../role/vscode.nix
+    # ../role/vscode.nix
     ];
   nixpkgs.config = {
      allowUnfree = true; #for?: vscode
@@ -44,7 +44,7 @@ with pkgs;
   };
   services.nix-serve.enable = true;
     # Enable the xrdp daemon.
-  services.xrdp.enable = true;
+  services.xrdp.enable = false;
   services.xrdp.defaultWindowManager = "xmonad";
  # networking.firewall.allowedTCPPorts = [ 3389 ];
 

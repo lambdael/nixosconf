@@ -9,7 +9,8 @@
     fontconfig-ultimate
 
     feh # image viewer
-    rxvt_unicode # terminal
+    # rxvt_unicode # terminal
+    termite # terminal
     # atom #editor
     # firefox #browser
     haskellPackages.xmobar #for xmonad
@@ -45,16 +46,11 @@
       source-code-pro
       hasklig
     ];
-    fontconfig = {
-      enable = true;
-      dpi = 155;
-    };
   };
   # Enable the X11 windowing system.
   services = {
     xserver = {
       enable = true;
-      layout = "jp";
       windowManager = {
         xmonad.enable = true;
         xmonad.enableContribAndExtras = true;
@@ -67,7 +63,6 @@
       desktopManager.plasma5.enable = false;
       desktopManager.gnome3.enable = false;
       displayManager.lightdm.enable = false;
-
         #theme = ./slim-theme;
 
     };

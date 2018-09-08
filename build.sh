@@ -31,6 +31,6 @@ sudo cp -r $cfgSrcPath $cfgTgtPath
 
 
 echo "rebuild"
-sudo nixos-rebuild switch --show-trace
+sudo nixos-rebuild switch --upgrade --show-trace
 
 
