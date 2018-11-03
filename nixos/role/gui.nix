@@ -8,6 +8,8 @@
     kde-gtk-config
     fontconfig-ultimate
 
+    taffybar
+
     feh # image viewer
     # rxvt_unicode # terminal
     termite # terminal
@@ -18,6 +20,7 @@
     lxqt.pcmanfm-qt #file manager
     # supercollider_scel
     chromium
+    font-awesome_5
   	# nodejs-9_x
     # electron
   ];
@@ -45,6 +48,8 @@
       anonymousPro
       source-code-pro
       hasklig
+      font-awesome_4
+
     ];
   };
   # Enable the X11 windowing system.
@@ -62,7 +67,8 @@
       desktopManager.xterm.enable = false;
       desktopManager.plasma5.enable = false;
       desktopManager.gnome3.enable = false;
-      displayManager.lightdm.enable = false;
+      displayManager.lightdm.enable = true;
+      # displayManager.lightdm.greeter.package = 
         #theme = ./slim-theme;
 
     };

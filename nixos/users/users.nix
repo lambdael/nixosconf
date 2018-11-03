@@ -1,14 +1,20 @@
 { config, pkgs, ... }:
 with pkgs;
  {
+
+  i18n = {
+    consoleFont = "Source Code Pro 32";
+    # consoleFont = "Terminess Powerline";
+    consoleColors = [ "002b36" "dc322f" "859900" "b58900" "268bd2" "d33682" "2aa198" "eee8d5" "002b36" "cb4b16" "586e75" "657b83" "839496" "6c71c4" "93a1a1" "fdf6e3" ];
+  };
   nix={
     binaryCaches = [
-    https://cache.nixos.org/
-    https://lambdael.cachix.org
-     "https://nixcache.reflex-frp.org"
-  #	http://192.168.1.1:5000/
-  #	ssh://192.168.1.1/
-  ];
+      https://cache.nixos.org/
+      https://lambdael.cachix.org
+      https://nixcache.reflex-frp.org
+    #	http://192.168.1.1:5000/
+    #	ssh://192.168.1.1/
+    ];
     binaryCachePublicKeys = [
       "lambdael.cachix.org-1:zzFfq6IdazT/9Ihowd74k+gClvHD239xgdea/7ojv34="
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="  ## reflex-frp
@@ -22,11 +28,14 @@ with pkgs;
   programs.bash.loginShellInit = ''
   
   EDITOR=nvim
+  VISUAL=code
+
   PAGER=less
+  XDG_CONFIG_HOME=~/.xmonad/
   '';
   # programs.fish.loginShellInit = ''
   programs.fish.interactiveShellInit = ''
-  set -x VISUAL nvim
+  set -x VISUAL code
   set -x EDITOR nvim
   set -x PAGER less
   set -x ZZZZ w3m
@@ -65,14 +74,25 @@ with pkgs;
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBm0wk+9rxjSz93IaDpLST3nXRB/y/ldW3nfvLZVpJQ4 lambdael@iso"
      ];
   };
-
+  # boot.initrd.network.ssh.authorizedKeys = [
+  #   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBm0wk+9rxjSz93IaDpLST3nXRB/y/ldW3nfvLZVpJQ4 lambdael@iso"
+  # ];
+  users.users.root = {
+    openssh.authorizedKeys.keys = [ 
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBm0wk+9rxjSz93IaDpLST3nXRB/y/ldW3nfvLZVpJQ4 lambdael@iso"
+    ];
+  };
+  users.users.mpd = {
+    createHome = false;
+    extraGroups = [ "mpd" "audio"];
+  };
   users.users.nyx = {
     isNormalUser = true;
     createHome = true;
     cryptHomeLuks = "/dev/sdc3";
     home = "/home/nyx";
     description = "nyx temp";
-    extraGroups = [ "wheel" "audio" "builder"];
+    extraGroups = [ "wheel" "audio" ];
     shell = fish;
     openssh.authorizedKeys.keys = [ 
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIAIqSwLLB7QYkvtiIF1UZZp/2g2LUlL3hIDx1D+J8MQ lambdael"
@@ -92,8 +112,17 @@ with pkgs;
 #    ssh-keygen -t ed25519
 
 
+# nix-env -qa 'ncmpc.*'
+  environment.systemPackages = with pkgs; [
+    ncmpcpp
+  # syslinux
+  ];
 
+services.mpd={
+  enable = true;
+  musicDirectory = /share/music;
 
+};
 
 services.fractalart.enable = true;
 # https://hackage.haskell.org/package/FractalArt
