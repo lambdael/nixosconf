@@ -1,16 +1,35 @@
+
 # nixosconf
 
+  nix-collect-garbage
 
-about partition
-https://wiki.archlinux.org/index.php/EFI_System_Partition
+- nixpkgs manual
 
+  https://nixos.org/nixpkgs/manual/
+
+- nixos
+
+  https://nixos.org/nixos/manual/
+  
+  - package
+  
+    https://nixos.org/nixos/packages.html
+
+  - options
+  
+    https://nixos.org/nixos/options.html#
+
+# Partition
+
+- about partition
+
+  https://wiki.archlinux.org/index.php/EFI_System_Partition
 
 ```bash
 
 lsblk -f
 
 fdisk /dev/sdc
-
 
 
 mkfs.ext4 -L nixos /dev/sdc3

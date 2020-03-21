@@ -13,7 +13,8 @@ with pkgs;
        ../role/gui.nix
       #../role/pythondev.nix
       #../role/nodsjsdev.nix
-     # ../role/audio.nix
+     ../role/audio.nix
+     ../role/game.nix
      # ../role/unfree.nix
       #../role/graphic.nix
       ../role/minimal.nix
@@ -26,7 +27,7 @@ with pkgs;
       networking.hostName = "iso"; # Define your hostname.
   fonts.fontconfig = {
     enable = true;
-    dpi = 128;
+    dpi = 260;
     defaultFonts = {
         monospace = [ 
           "Source Code Pro 18"
@@ -106,6 +107,7 @@ with pkgs;
  #   nerdfonts
     vimHugeX
     lesspipe
+    cryptsetup
   # syslinux
   ];
   # nix.binaryCaches = [ "https://cache.nixos.org/" "https://nixcache.reflex-frp.org" ];

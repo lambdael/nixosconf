@@ -14,6 +14,9 @@
     jack2Full
     qjackctl
     lxqt.pavucontrol-qt
+    sox # command line player, fileconverter
+    ncpamixer
+    lmms # DAW
   #  alsamixer
   ];
 }

@@ -3,13 +3,14 @@
   environment.systemPackages = with pkgs; [
     wget
     vim
-    haskellPackages.vgrep
     
+    cryptsetup
     gitAndTools.gitFull
     nix-prefetch-git
-    bash-completion
     sudo
     
+    bash-completion
+    haskellPackages.vgrep
     tmux
     # gnupg
     # pass
@@ -43,7 +44,7 @@
   services = {
     openssh = {
       enable = true;
-      #permitRootLogin = "without-password";
+      permitRootLogin = "yes"; # for nixops
       passwordAuthentication = false;
     };
   };

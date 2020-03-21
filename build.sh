@@ -10,7 +10,7 @@ expr "${0}" : "/.*" > /dev/null || cwd=`(cd "${cwd}" && pwd)`
 
 sourceDir="${cwd}/nixos/"
 targetDir="/etc/"
-cfgSrcPath="${sourceDir}${HOSTNAME}.nix"
+cfgSrcPath="${sourceDir}machines/${HOSTNAME}.nix"
 cfgTgtPath="/etc/nixos/configuration.nix"
 
 echo "copy"
