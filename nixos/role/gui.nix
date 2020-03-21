@@ -16,6 +16,7 @@
     taffybar
 
     spaceFM # file manager
+
     feh # image viewer
     # rxvt_unicode # terminal
     termite # terminal

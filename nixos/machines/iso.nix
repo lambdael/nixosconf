@@ -13,12 +13,17 @@ with pkgs;
        ../role/gui.nix
       #../role/pythondev.nix
       #../role/nodsjsdev.nix
+<<<<<<< HEAD
      ../role/audio.nix
      ../role/game.nix
+=======
+      ../role/audio.nix
+    #  ../role/game.nix
+>>>>>>> 6d183c22f9490f93b0bc4f9f0a31ad657c811880
      # ../role/unfree.nix
       #../role/graphic.nix
       ../role/minimal.nix
-      # ../role/haskelldev.nix
+      ../role/haskelldev.nix
       # ../role/emacs.nix
       ../role/vscode.nix
       ../role/jp106keyboard.nix
@@ -27,7 +32,11 @@ with pkgs;
       networking.hostName = "iso"; # Define your hostname.
   fonts.fontconfig = {
     enable = true;
+<<<<<<< HEAD
     dpi = 260;
+=======
+    dpi = 180;
+>>>>>>> 6d183c22f9490f93b0bc4f9f0a31ad657c811880
     defaultFonts = {
         monospace = [ 
           "Source Code Pro 18"

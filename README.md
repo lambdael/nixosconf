@@ -1,5 +1,18 @@
 
 # nixosconf
+- nixos 
+
+  https://nixos.org/nixos/manual/
+  
+  - package
+  
+    https://nixos.org/nixos/packages.html
+
+  - options
+  
+    https://nixos.org/nixos/options.html#
+
+
 
   nix-collect-garbage
 

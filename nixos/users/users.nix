@@ -3,7 +3,8 @@ with pkgs;
  {
 
   i18n = {
-    consoleFont = "sun12x22";
+    # consoleFont = "sun12x22";
+    consoleFont = "Source Code Pro 32";
     # consoleFont = "Terminess Powerline";
     consoleColors = [ "002b36" "dc322f" "859900" "b58900" "268bd2" "d33682" "2aa198" "eee8d5" "002b36" "cb4b16" "586e75" "657b83" "839496" "6c71c4" "93a1a1" "fdf6e3" ];
   };
@@ -27,6 +28,7 @@ with pkgs;
   
   programs.bash.loginShellInit = ''
   
+<<<<<<< HEAD
   export EDITOR=nvim
   export VISUAL="termite --exec=nvim "
 
@@ -39,6 +41,23 @@ with pkgs;
   '';
   # programs.fish.loginShellInit = ''
   programs.fish.interactiveShellInit = ''
+=======
+  EDITOR=nvim
+  VISUAL=code
+
+  PAGER=less
+  XDG_CONFIG_HOME=~/.xmonad/
+  '';
+  # programs.fish.loginShellInit = ''
+  programs.fish.interactiveShellInit = ''
+  set -x VISUAL code
+  set -x EDITOR nvim
+  set -x PAGER less
+  set -x ZZZZ w3m
+  function shless
+    source-highlight-esc.sh $argv[1] | less -R
+  end
+>>>>>>> 6d183c22f9490f93b0bc4f9f0a31ad657c811880
 
 
   function fish_prompt
@@ -112,12 +131,20 @@ with pkgs;
 
 # nix-env -qa 'ncmpc.*'
   environment.systemPackages = with pkgs; [
+<<<<<<< HEAD
     #ncmpcpp
+=======
+    ncmpcpp
+>>>>>>> 6d183c22f9490f93b0bc4f9f0a31ad657c811880
   # syslinux
   ];
 
 services.mpd={
+<<<<<<< HEAD
   enable = false;
+=======
+  enable = true;
+>>>>>>> 6d183c22f9490f93b0bc4f9f0a31ad657c811880
   musicDirectory = /share/music;
 
 };
